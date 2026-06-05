@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CS2HUB — Live Scores, Rankings & Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo" onclick="switchPage('home')">
+    <span class="logo-cs">CS</span><span class="logo-2">2</span><span class="logo-hub">HUB</span>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="switchPage('home',this)">Matches</button>
+    <button class="nav-btn" onclick="switchPage('rankings',this)">Rankings</button>
+    <button class="nav-btn" onclick="switchPage('results',this)">Results</button>
+    <button class="nav-btn" onclick="switchPage('players',this)">Players</button>
+  </nav>
+  <div class="header-right">
+    <input
+  type="text"
+  id="globalSearch"
+  placeholder="Search..."
+  class="header-search"
+/>
+    <div class="live-pill"><div class="live-dot"></div><span id="liveCount">0 LIVE</span></div>
+    <div class="clock" id="clockEl">--:--:--</div>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="ticker-wrap">
+    <div class="ticker-label">BREAKING</div>
+    <div class="ticker-inner">
+      <div class="ticker-text" id="tickerText">Loading latest CS2 match data...</div>
+    </div>
+  </div>
+
+  <div class="err-banner" id="homeErr"></div>
+
+  <div class="sec-hdr">
+    <span class="sec-title">Live Now</span>
+    <div class="sec-line"></div>
+    <span class="sec-count" id="liveCnt">0</span>
+  </div>
+  <div class="match-grid" id="liveGrid">
+    <div class="loading-state" style="grid-column:span 2">
+      <div class="spin"></div>
+      <div class="loading-txt">Fetching live matches...</div>
+    </div>
+  </div>
+
+  <div class="sec-hdr">
+    <span class="sec-title">Upcoming</span>
+    <div class="sec-line"></div>
+    <span class="sec-count" id="upCnt">0</span>
+  </div>
+  <div class="up-list" id="upcomingList">
+    <div class="loading-state">
+      <div class="spin"></div>
+      <div class="loading-txt">Fetching upcoming matches...</div>
+    </div>
+  </div>
+</div>
+
+<!-- RANKINGS PAGE -->
+<div class="page" id="page-rankings">
+  <div class="sec-hdr">
+    <span class="sec-title">World Team Rankings</span>
+    <div class="sec-line"></div>
+  </div>
+  <div id="rankingsWrap">
+    <div class="loading-state"><div class="spin"></div><div class="loading-txt">Loading rankings...</div></div>
+  </div>
+</div>
+
+<!-- RESULTS PAGE -->
+<div class="page" id="page-results">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('recent',this)">Recent Results</div>
+    <div class="tab" onclick="switchTab('week',this)">This Week</div>
+  </div>
+  <div id="resultsWrap">
+    <div class="loading-state"><div class="spin"></div><div class="loading-txt">Loading results...</div></div>
+  </div>
+</div>
+
+<!-- PLAYERS PAGE -->
+<div class="page" id="page-players">
+  <div class="player-search">
+    <input class="search-input" id="playerSearchInput" placeholder="Search player by nickname..." onkeydown="if(event.key==='Enter')searchPlayers()"/>
+    <button class="search-btn" onclick="searchPlayers()">Search</button>
+  </div>
+  <div id="playersWrap">
+    <div class="loading-state"><div class="spin"></div><div class="loading-txt">Loading top players...</div></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Match Details</div>
+      <button class="modal-close" onclick="document.getElementById('modalBg').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="sb-dot"></div>
+  <span id="sb-msg">Connecting to PandaScore API...</span>
+  <span style="margin-left:auto" id="sb-clock"></span>
+</div>
+
+<div style="height:32px"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
