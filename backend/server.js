@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -6,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-const TOKEN = "8Ixu0UWpHY07fXI7NMmqSyGQ5w60gaICH3dd46Qe0nvBQxdmtJI";
+const TOKEN = process.env.PANDASCORE_TOKEN;
 
 // Live matches
 app.get("/api/live", async (req, res) => {

@@ -4,6 +4,22 @@ const BASE = 'http://localhost:3000';
 const HEADERS = {'Authorization': `Bearer ${API_TOKEN}`};
 
 // ─── TEAM COLORS (deterministic from name hash) ──────────
+const TEAM_DATA = {
+  "Natus Vincere": {
+    rank: "#1",
+    region: "Europe",
+    winRate: "74%",
+    roster: ["b1t", "jL", "Aleksib", "iM", "w0nderful"]
+  },
+
+  "Team Spirit": {
+    rank: "#2",
+    region: "CIS",
+    winRate: "72%",
+    roster: ["donk", "sh1ro", "zont1x", "magixx", "chopper"]
+  }
+};
+
 const COLOR_POOL = [
   ['#1f3a5f','#4a9eff'],['#1a3828','#3ecf8e'],['#3d2b00','#e8a020'],
   ['#2d1f5e','#bc8cff'],['#3d1010','#e8451a'],['#0f2a2a','#2dd4bf'],
@@ -50,13 +66,25 @@ tick();setInterval(tick,1000);
 
 // ─── NAV ─────────────────────────────────────────────────
 function switchPage(id,btn){
+
+  console.log("Trying to open:", "page-" + id);
+
+  const page = document.getElementById('page-'+id);
+
+  console.log(page);
+
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
+
+  page.classList.add('active');
+
   if(btn)btn.classList.add('active');
+
   if(id==='rankings'&&!rankingsLoaded)loadRankings();
   if(id==='results'&&!resultsLoaded)loadResults();
   if(id==='players'&&!playersLoaded)loadPlayers();
+  if(id==='teams'&&!teamsLoaded)loadTeams();
+  if(id==='tournaments'&&!tournamentsLoaded)loadTournaments();
 }
 function switchTab(id,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -427,11 +455,113 @@ function closeModal(e){if(e.target===document.getElementById('modalBg'))document
 function setSbMsg(msg){document.getElementById('sb-msg').textContent=msg}
 
 // ─── INIT ────────────────────────────────────────────────
+let teamsLoaded = false;
+
+async function loadTeams(){
+
+  try{
+
+    const teams = await api('/api/teams');
+
+    const wrap = document.getElementById('teamsWrap');
+
+    wrap.innerHTML = teams.map(team => `
+      <div class="player-card"
+     onclick="openTeam('${team.name.replace(/'/g, "\\'")}')">
+
+        <div class="pc-top">
+
+          <div class="pc-avatar">
+            ${team.name.substring(0,3).toUpperCase()}
+          </div>
+
+          <div>
+            <div class="pc-nick">${team.name}</div>
+            <div class="pc-name">
+              CS2 Team
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    `).join('');
+
+    teamsLoaded = true;
+
+  }catch(e){
+
+    document.getElementById('teamsWrap').innerHTML =
+      `<div class="empty-state">Failed to load teams</div>`;
+
+  }
+}
+
+let tournamentsLoaded = false;
+
+async function loadTournaments(){
+
+  try{
+
+    const matches = await api('/api/upcoming');
+
+    const wrap = document.getElementById('tournamentsWrap');
+
+    const tournaments = {};
+
+    matches.forEach(match => {
+
+      const name =
+        match.league?.name ||
+        match.tournament?.name ||
+        "Unknown Tournament";
+
+      tournaments[name] = true;
+
+    });
+
+    wrap.innerHTML = Object.keys(tournaments).map(name => `
+      <div class="player-card"
+           onclick="openTournament('${name.replace(/'/g,"\\'")}')">
+
+        <div class="pc-top">
+
+          <div class="pc-avatar">🏆</div>
+
+          <div>
+            <div class="pc-nick">${name}</div>
+            <div class="pc-name">CS2 Tournament</div>
+          </div>
+
+        </div>
+
+      </div>
+    `).join('');
+
+    tournamentsLoaded = true;
+
+  }catch(e){
+
+    document.getElementById('tournamentsWrap').innerHTML =
+      '<div class="empty-state">Failed to load tournaments</div>';
+
+  }
+
+}
+
 loadHome();
+loadSearchData();
 setInterval(()=>{if(homeLoaded)loadHome()},60000);
 
 function openTeam(teamName){
   document.getElementById('modalTitle').textContent = teamName;
+
+  const team = TEAM_DATA[teamName] || {
+  rank: "N/A",
+  region: "Unknown",
+  winRate: "N/A",
+  roster: []
+};
 
   document.getElementById('modalBody').innerHTML = `
     <div style="padding:20px">
@@ -467,13 +597,44 @@ function openTeam(teamName){
         padding:12px;
         border-radius:8px;
       ">
-        <div><b>Country:</b> Unknown</div>
-        <div><b>World Ranking:</b> N/A</div>
-        <div><b>Status:</b> Active</div>
+      <div><b>Region:</b> ${team.region}</div>
+      <div><b>World Ranking:</b> ${team.rank}</div>
+      <div><b>Win Rate:</b> ${team.winRate}</div>
       </div>
 
+      <div style="
+  background:var(--card2);
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px;
+">
+  <div style="font-weight:700;margin-bottom:8px">
+    Roster
+  </div>
+
+  ${team.roster.length
+    ? team.roster.map(player => `<div>• ${player}</div>`).join('')
+    : '<div>No roster data available</div>'
+  }
+</div>
+
+<div style="
+  background:var(--card2);
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px;
+">
+  <div style="font-weight:700;margin-bottom:8px">
+    Team Stats
+  </div>
+
+  <div>Matches Played: 25</div>
+  <div>Wins: 18</div>
+  <div>Losses: 7</div>
+</div>
     </div>
   `;
+  document.getElementById('modalBg').classList.add('open');
 }
 
 function openPlayer(nick,name,team,rating,kd,hs){
@@ -570,18 +731,102 @@ function openTournament(eventName){
   document.getElementById('modalBg').classList.add('open');
 }
 
+let searchTeams = [];
+let searchPlayersData = [];
+let searchTournaments = [];
+
+async function loadSearchData(){
+
+    const teams = await api('/api/teams');
+    const players = await api('/api/players');
+    const matches = await api('/api/upcoming');
+
+    searchTeams = [
+  ...teams,
+  ...matches.flatMap(match => [
+    match.opponents?.[0]?.opponent,
+    match.opponents?.[1]?.opponent
+  ]).filter(Boolean)
+];
+
+searchTeams = [
+  ...new Map(
+    searchTeams.map(team => [team.name, team])
+  ).values()
+];
+    searchPlayersData = players;
+
+    searchTournaments = [
+        ...new Set(
+            matches.map(m =>
+                m.league?.name ||
+                m.tournament?.name
+            )
+        )
+    ];
+}
+
 document.getElementById("globalSearch").addEventListener("input", function () {
 
-    const value = this.value.toLowerCase();
+    const value = this.value;
 
-    document.querySelectorAll(".up-card").forEach(card => {
+    const results = document.getElementById("searchResults");
 
-        if(card.innerText.toLowerCase().includes(value)){
-            card.style.display = "flex";
-        }else{
-            card.style.display = "none";
-        }
+    if(value.length === 0){
+        results.style.display = "none";
+        return;
+    }
 
-    });
+    results.style.display = "block";
+
+    const filteredTeams = searchTeams.filter(team =>
+    team.name &&
+    team.name.toLowerCase().includes(value.toLowerCase())
+);
+
+const filteredPlayers = searchPlayersData.filter(player =>
+    player.name &&
+    player.name.toLowerCase().includes(value.toLowerCase())
+);
+
+const filteredTournaments = searchTournaments.filter(tournament =>
+    tournament &&
+    tournament.toLowerCase().includes(value.toLowerCase())
+);
+console.log(filteredTeams);
+console.log(value);
+
+
+results.innerHTML = `
+
+${filteredTeams.slice(0,5).map(team => `
+    <div class="search-item"
+         onclick="openTeam('${team.name}')">
+         🔵 Team: ${team.name}
+    </div>
+`).join("")}
+
+${filteredPlayers.slice(0,5).map(player => `
+    <div class="search-item"
+         onclick="openPlayer(
+           '${player.name}',
+           '',
+           '${player.current_team?.name || "Free Agent"}',
+           '1.10',
+           '1.00',
+           '50'
+         )">
+         👤 Player: ${player.name}
+    </div>
+`).join("")}
+
+${filteredTournaments.slice(0,5).map(tournament => `
+    <div class="search-item"
+         onclick="openTournament('${tournament}')">
+         🏆 Tournament: ${tournament}
+    </div>
+`).join("")}
+
+`;
 
 });

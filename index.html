@@ -18,6 +18,8 @@
     <button class="nav-btn" onclick="switchPage('rankings',this)">Rankings</button>
     <button class="nav-btn" onclick="switchPage('results',this)">Results</button>
     <button class="nav-btn" onclick="switchPage('players',this)">Players</button>
+    <button class="nav-btn" onclick="switchPage('teams',this)">Teams</button>
+    <button class="nav-btn" onclick="switchPage('tournaments',this)">Tournaments</button>
   </nav>
   <div class="header-right">
     <input
@@ -26,6 +28,7 @@
   placeholder="Search..."
   class="header-search"
 />
+<div id="searchResults"></div>
     <div class="live-pill"><div class="live-dot"></div><span id="liveCount">0 LIVE</span></div>
     <div class="clock" id="clockEl">--:--:--</div>
   </div>
@@ -119,6 +122,49 @@
 
 <div style="height:32px"></div>
 
+<!-- TEAMS PAGE -->
+<div class="page" id="page-teams">
+
+  <div class="sec-hdr">
+    <span class="sec-title">Teams</span>
+    <div class="sec-line"></div>
+  </div>
+
+  <div id="teamsWrap">
+
+    <div class="loading-state">
+      <div class="spin"></div>
+      <div class="loading-txt">Loading teams...</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOURNAMENTS PAGE -->
+<div class="page" id="page-tournaments">
+
+  <div class="sec-hdr">
+    <span class="sec-title">Tournaments</span>
+    <div class="sec-line"></div>
+  </div>
+
+  <div id="tournamentsWrap">
+
+    <div class="loading-state">
+      <div class="spin"></div>
+      <div class="loading-txt">
+        Loading tournaments...
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
 <script src="script.js"></script>
+
+
 </body>
 </html>
