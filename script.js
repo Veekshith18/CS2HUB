@@ -1,6 +1,6 @@
 // ─── CONFIG ───────────────────────────────────────────────
 const API_TOKEN = '8Ixu0UWpHY07fXI7NMmqSyGQ5w60gaICH3dd46Qe0nvBQxdmtJI';
-const BASE = 'http://localhost:3000';
+const BASE = 'https://cs2hub-backend.onrender.com';
 const HEADERS = {'Authorization': `Bearer ${API_TOKEN}`};
 
 // ─── TEAM COLORS (deterministic from name hash) ──────────
