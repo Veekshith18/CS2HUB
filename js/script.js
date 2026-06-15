@@ -67,11 +67,11 @@ tick();setInterval(tick,1000);
 // ─── NAV ─────────────────────────────────────────────────
 function switchPage(id,btn){
 
-  console.log("Trying to open:", "page-" + id);
+  
 
   const page = document.getElementById('page-'+id);
 
-  console.log(page);
+  
 
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -409,48 +409,14 @@ const games = validGames.map((g,i)=>{
 }
 
 // ─── TEAM MODAL ──────────────────────────────────────────
-function openTeam(teamName,country){
 
-  document.getElementById('modalTitle').textContent = teamName;
-
-  document.getElementById('modalBody').innerHTML = `
-    <div style="padding:10px">
-
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-
-        ${teamLogoHTML(teamName,60,'12px')}
-
-        <div>
-          <div style="font-size:24px;font-weight:700">
-            ${teamName}
-          </div>
-
-          <div style="color:var(--muted)">
-            ${country}
-          </div>
-        </div>
-
-      </div>
-
-      <div style="
-        background:var(--card2);
-        padding:16px;
-        border-radius:8px;
-      ">
-        <div><b>Status:</b> Active</div>
-        <br>
-        <div><b>Game:</b> Counter-Strike 2</div>
-        <br>
-        <div><b>Region:</b> ${country}</div>
-      </div>
-
-    </div>
-  `;
-
-  document.getElementById('modalBg').classList.add('open');
-}
 
 function closeModal(e){if(e.target===document.getElementById('modalBg'))document.getElementById('modalBg').classList.remove('open')}
+
+function closeSearch() {
+  document.getElementById("searchResults").style.display = "none";
+  document.getElementById("globalSearch").value = "";
+}
 
 function setSbMsg(msg){document.getElementById('sb-msg').textContent=msg}
 
@@ -463,7 +429,7 @@ async function loadTeams(){
 
     const teams = await api('/api/teams');
 
-    console.log(teams[0]);
+
 
     const wrap = document.getElementById('teamsWrap');
 
@@ -568,20 +534,7 @@ function openTeam(teamName){
 
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
 
-        <div style="
-          width:80px;
-          height:80px;
-          border-radius:12px;
-          background:#123822;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-weight:700;
-          font-size:24px;
-          color:#7fffb0;
-        ">
-          ${teamName.substring(0,3).toUpperCase()}
-        </div>
+        ${teamLogoHTML(teamName, 80, '14px')}
 
         <div>
           <h2 style="margin:0">${teamName}</h2>
@@ -604,33 +557,108 @@ function openTeam(teamName){
 
       <div style="
   background:var(--card2);
-  padding:12px;
-  border-radius:8px;
+  padding:14px;
+  border-radius:10px;
   margin-top:12px;
 ">
-  <div style="font-weight:700;margin-bottom:8px">
-    Roster
+
+  <div style="
+    font-weight:700;
+    margin-bottom:12px;
+    color:var(--text);
+  ">
+    TEAM ROSTER
   </div>
 
-  ${team.roster.length
-    ? team.roster.map(player => `<div>• ${player}</div>`).join('')
-    : '<div>No roster data available</div>'
+  ${
+    team.roster.length
+    ? team.roster.map(player => `
+      <div style="
+        background:var(--card);
+        padding:10px 14px;
+        border-radius:8px;
+        margin-bottom:8px;
+        display:flex;
+        align-items:center;
+        gap:10px;
+      ">
+        <span style="font-size:18px">👤</span>
+        <span>${player}</span>
+      </div>
+    `).join('')
+    : `
+      <div style="
+        color:var(--muted);
+        padding:10px;
+      ">
+        No roster data available
+      </div>
+    `
   }
+
 </div>
 
-<div style="
-  background:var(--card2);
-  padding:12px;
-  border-radius:8px;
-  margin-top:12px;
-">
-  <div style="font-weight:700;margin-bottom:8px">
-    Team Stats
+<div style="margin-top:12px">
+
+  <div style="
+    font-weight:700;
+    margin-bottom:10px;
+    letter-spacing:1px;
+    color:var(--muted);
+  ">
+    TEAM STATISTICS
   </div>
 
-  <div>Matches Played: 25</div>
-  <div>Wins: 18</div>
-  <div>Losses: 7</div>
+  <div style="
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  ">
+
+    <div style="
+      background:var(--card2);
+      padding:14px;
+      border-radius:10px;
+      text-align:center;
+    ">
+      <div style="font-size:22px;font-weight:700;color:var(--accent)">
+        25
+      </div>
+      <div style="font-size:12px;color:var(--muted)">
+        Matches
+      </div>
+    </div>
+
+    <div style="
+      background:var(--card2);
+      padding:14px;
+      border-radius:10px;
+      text-align:center;
+    ">
+      <div style="font-size:22px;font-weight:700;color:var(--accent2)">
+        18
+      </div>
+      <div style="font-size:12px;color:var(--muted)">
+        Wins
+      </div>
+    </div>
+
+    <div style="
+      background:var(--card2);
+      padding:14px;
+      border-radius:10px;
+      text-align:center;
+    ">
+      <div style="font-size:22px;font-weight:700;color:var(--accent3)">
+        7
+      </div>
+      <div style="font-size:12px;color:var(--muted)">
+        Losses
+      </div>
+    </div>
+
+  </div>
+
 </div>
     </div>
   `;
@@ -644,7 +672,16 @@ function openPlayer(nick,name,team,rating,kd,hs){
   document.getElementById('modalBody').innerHTML = `
     <div style="padding:20px">
 
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+      <div style="
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,var(--card2),transparent);
+  padding:18px;
+  border-radius:12px;
+  border:1px solid var(--border);
+">
 
         <div style="
           width:80px;
@@ -779,6 +816,8 @@ document.getElementById("globalSearch").addEventListener("input", function () {
 
     results.style.display = "block";
 
+  
+
     const filteredTeams = searchTeams.filter(team =>
     team.name &&
     team.name.toLowerCase().includes(value.toLowerCase())
@@ -793,42 +832,146 @@ const filteredTournaments = searchTournaments.filter(tournament =>
     tournament &&
     tournament.toLowerCase().includes(value.toLowerCase())
 );
-console.log(filteredTeams);
-console.log(value);
+if (
+    filteredTeams.length === 0 &&
+    filteredPlayers.length === 0 &&
+    filteredTournaments.length === 0
+) {
+    results.innerHTML = `
+      <div class="search-item" style="
+        text-align:center;
+        padding:20px;
+        color:var(--muted);
+        cursor:default;
+      ">
+        🔍 No results found<br>
+        <small>Try searching teams, players or tournaments</small>
+      </div>
+    `;
+    return;
+}
 
 
 results.innerHTML = `
 
 ${filteredTeams.slice(0,5).map(team => `
-    <div class="search-item"
-         onclick="openTeam('${team.name}')">
-         🔵 Team: ${team.name}
+<div class="search-item"
+     onclick="
+closeSearch();
+openTeam('${team.name}')
+">
+
+  <div style="display:flex;align-items:center;gap:12px">
+
+    ${teamLogoHTML(team.name,32,'8px')}
+
+    <div>
+      <div style="font-weight:700">
+        ${team.name}
+      </div>
+
+      <div style="
+        font-size:12px;
+        color:var(--muted);
+      ">
+        Team
+      </div>
     </div>
+
+  </div>
+
+</div>
 `).join("")}
+
 
 ${filteredPlayers.slice(0,5).map(player => `
-    <div class="search-item"
-         onclick="openPlayer(
-           '${player.name}',
-           '',
-           '${player.current_team?.name || "Free Agent"}',
-           '1.10',
-           '1.00',
-           '50'
-         )">
-         👤 Player: ${player.name}
+<div class="search-item"
+     onclick="
+closeSearch();
+openPlayer(
+       '${player.name}',
+       '',
+       '${player.current_team?.name || "Free Agent"}',
+       '1.10',
+       '1.00',
+       '50'
+     )">
+
+  <div style="display:flex;align-items:center;gap:12px">
+
+    <div style="
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:#18284a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    ">
+      👤
     </div>
+
+    <div>
+      <div style="font-weight:700">
+        ${player.name}
+      </div>
+
+      <div style="
+        font-size:12px;
+        color:var(--muted);
+      ">
+        ${player.current_team?.name || "Free Agent"}
+      </div>
+    </div>
+
+  </div>
+
+</div>
 `).join("")}
 
+
 ${filteredTournaments.slice(0,5).map(tournament => `
-    <div class="search-item"
-         onclick="openTournament('${tournament}')">
-         🏆 Tournament: ${tournament}
+<div class="search-item"
+     onclick="
+closeSearch();
+openTournament('${tournament}')
+">
+
+  <div style="display:flex;align-items:center;gap:12px">
+
+    <div style="
+      width:32px;
+      height:32px;
+      border-radius:8px;
+      background:#453100;
+      color:var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    ">
+      🏆
     </div>
+
+    <div>
+      <div style="font-weight:700">
+        ${tournament}
+      </div>
+
+      <div style="
+        font-size:12px;
+        color:var(--muted);
+      ">
+        Tournament
+      </div>
+    </div>
+
+  </div>
+
+</div>
 `).join("")}
 
 `;
-
 });
 
 async function openMatch(id) {
