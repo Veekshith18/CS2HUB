@@ -463,6 +463,8 @@ async function loadTeams(){
 
     const teams = await api('/api/teams');
 
+    console.log(teams[0]);
+
     const wrap = document.getElementById('teamsWrap');
 
     wrap.innerHTML = teams.map(team => `
@@ -471,9 +473,7 @@ async function loadTeams(){
 
         <div class="pc-top">
 
-          <div class="pc-avatar">
-            ${team.name.substring(0,3).toUpperCase()}
-          </div>
+          ${teamLogoHTML(team.name, 50, '10px')}
 
           <div>
             <div class="pc-nick">${team.name}</div>
@@ -830,3 +830,31 @@ ${filteredTournaments.slice(0,5).map(tournament => `
 `;
 
 });
+
+async function openMatch(id) {
+
+  try {
+
+    const live = await api('/api/live');
+    const upcoming = await api('/api/upcoming');
+    const results = await api('/api/results');
+
+    const allMatches = [
+      ...live,
+      ...upcoming,
+      ...results
+    ];
+
+    const match = allMatches.find(m => m.id === id);
+
+    if (match) {
+      openMatchData(match);
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+  }
+
+}
