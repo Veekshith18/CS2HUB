@@ -179,7 +179,7 @@ npm install
 ### 4. Create `.env` file
 
 ```env
-PANDASCORE_API_KEY=8Ixu0UWpHY07fXI7NMmqSyGQ5w60gaICH3dd46Qe0nvBQxdmtJI
+PANDASCORE_API_KEY=YOUR_PANDASCORE_API_KEY
 ```
 
 ### 5. Start the backend server
