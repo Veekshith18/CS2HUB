@@ -1,46 +1,94 @@
-# 🎮 CS2Hub - Full Stack CS2 Esports Analytics Platform
+# 🎮 CS2Hub – Full Stack Counter-Strike 2 Esports Analytics Platform
 
-## 🌐 Live Project
-
-- Frontend: https://cs-2-hub-five.vercel.app
-- Backend API: https://cs2hub-backend.onrender.com
-- GitHub Repository: https://github.com/Veekshith18/CS2HUB
-
----
-
-## 📌 Overview
-
-CS2Hub is a full-stack esports analytics web application inspired by VLR.gg, developed to provide real-time Counter-Strike 2 match information, live scores, upcoming schedules, team rankings, player statistics, tournament details, and an advanced global search system.
-
-The application integrates external esports APIs through a custom Express.js backend, ensuring secure API communication and delivering a responsive, modern user interface built using HTML, CSS, and JavaScript.
+![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge)
 
 ---
 
-## ✨ Key Features
+# 🌐 Live Demo
 
-- 🔴 Live CS2 match tracking
-- 📅 Upcoming match schedules
-- 📰 Match results and details
-- 🌍 World team rankings
-- 👥 Team profile modals with statistics
-- 🎯 Player profiles and performance statistics
-- 🏆 Tournament information pages
-- 🔎 Global search for teams, players, and tournaments
-- 🖼️ Dynamic team logo generation
-- 📱 Fully responsive design for mobile and desktop
-- ⚡ Asynchronous API communication using Fetch API
+### 🔗 Frontend
+https://cs-2-hub-five.vercel.app
+
+### 🔗 Backend API
+https://cs2hub-backend.onrender.com
+
+### 📂 GitHub Repository
+https://github.com/Veekshith18/CS2HUB
 
 ---
 
-# 🖼️ Application Screenshots
+# 📑 Table of Contents
 
-## 🔴 Live Match Dashboard
-
-![Live Matches](screenshots/home-live-matches.png)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [Tech Stack](#-tech-stack)
+- [Project Architecture](#-project-architecture)
+- [Request Flow](#-request-flow)
+- [API Endpoints](#-api-endpoints)
+- [Engineering Highlights](#-engineering-highlights)
+- [Challenges](#-challenges)
+- [Running Locally](#-running-locally)
+- [Future Improvements](#-future-improvements)
+- [Developer](#-developer)
 
 ---
 
-## 🎮 Match Details Modal
+# 📌 Overview
+
+CS2Hub is a **full-stack Counter-Strike 2 esports analytics platform** inspired by professional esports websites like **HLTV** and **VLR.gg**.
+
+It provides users with:
+
+- Upcoming match schedules
+- Match results
+- Team rankings
+- Team profiles
+- Player profiles
+- Tournament information
+- Global search
+- Responsive UI
+
+The project uses an **Express.js backend** to securely communicate with the PandaScore API while keeping API keys hidden from the client.
+
+To improve backend efficiency, **server-side caching using node-cache** has been implemented, reducing redundant API requests and improving response time.
+
+---
+
+# ✨ Features
+
+| Feature | Status |
+|----------|--------|
+| Upcoming Matches | ✅ |
+| Match Results | ✅ |
+| Team Rankings | ✅ |
+| Team Profiles | ✅ |
+| Player Profiles | ✅ |
+| Tournament Pages | ✅ |
+| Match Details | ✅ |
+| Global Search | ✅ |
+| Responsive Design | ✅ |
+| Express.js Backend Proxy | ✅ |
+| Secure Environment Variables | ✅ |
+| Server-side Response Caching | ✅ |
+
+---
+
+# 🖼️ Screenshots
+
+## 🏠 Home – Live Matches
+
+![Home](screenshots/home-live-matches.png)
+
+---
+
+## 🎮 Match Details
 
 ![Match Details](screenshots/match-details-modal.png)
 
@@ -64,7 +112,19 @@ The application integrates external esports APIs through a custom Express.js bac
 
 ---
 
-## 🔎 Global Search
+## 🎯 Players Page
+
+![Players](screenshots/players-page.png)
+
+---
+
+## 🏆 Tournament Page
+
+![Tournament](screenshots/tournaments-page.png)
+
+---
+
+## 🔍 Global Search
 
 ![Global Search](screenshots/global-search.png)
 
@@ -72,142 +132,195 @@ The application integrates external esports APIs through a custom Express.js bac
 
 ## 📱 Mobile Responsive Design
 
-![Mobile View](screenshots/mobile-view.png)
+![Mobile](screenshots/mobile-view.png)
 
 ---
 
-## 🏆 Tournament Page
-
-![Tournaments](screenshots/tournaments-page.png)
-
----
-
-## 🎯 Players Statistics Page
-
-![Players](screenshots/players-page.png)
-
----
-
-# 🛠️ Technology Stack
+# 🛠️ Tech Stack
 
 ## Frontend
+
 - HTML5
 - CSS3
 - JavaScript (ES6)
-- Responsive Web Design
+- Fetch API
 
 ## Backend
+
 - Node.js
 - Express.js
-- REST API Development
+- node-cache
 
-## External API
+## API
+
 - PandaScore API
 
-## Development & Deployment Tools
+## Deployment
+
+- Vercel
+- Render
+
+## Version Control
+
 - Git
 - GitHub
-- Vercel (Frontend Deployment)
-- Render (Backend Deployment)
 
 ---
 
-# 📂 Project Architecture
+# 🏗️ Project Architecture
 
 ```
 CS2Hub
 │
-├── backend/
+├── backend
 │   ├── server.js
 │   ├── package.json
+│   ├── prisma/
 │   ├── .env
+│   └── .gitignore
 │
-├── css/
+├── css
 │   └── style.css
 │
-├── js/
+├── js
 │   └── script.js
 │
-├── screenshots/
-│   ├── home-live-matches.png
-│   ├── match-details-modal.png
-│   ├── rankings-page.png
-│   ├── team-profile-modal.png
-│   ├── player-profile-modal.png
-│   └── more screenshots...
+├── screenshots
 │
 ├── index.html
-├── README.md
-└── .gitignore
+│
+└── README.md
 ```
 
 ---
 
-# 💻 Engineering Highlights
+# 🔄 Request Flow
 
-- Designed a clean frontend architecture with separate CSS and JavaScript modules.
-- Built an Express.js backend proxy to protect API keys using environment variables.
-- Implemented asynchronous data fetching and real-time UI updates.
-- Developed reusable components such as match cards, player cards, team cards, and interactive modals.
-- Created a global search engine for teams, players, and tournaments.
-- Optimized the user interface for different screen sizes and mobile devices.
-- Managed version control and collaboration workflow using Git and GitHub.
-- Deployed a production-ready application using Vercel and Render.
+```
+Browser
+    │
+    ▼
+Frontend (HTML/CSS/JavaScript)
+    │
+Fetch API
+    ▼
+Express.js Backend
+    │
+Check Cache
+    │
+├── Cache Hit
+│      │
+│      ▼
+│ Return Cached JSON
+│
+└── Cache Miss
+       │
+       ▼
+ PandaScore API
+       │
+       ▼
+Store Response in Cache
+       │
+       ▼
+Return JSON to Frontend
+       │
+       ▼
+Update UI
+```
 
 ---
 
-# 🚀 Running the Project Locally
+# 📡 API Endpoints
 
-### 1. Clone the repository
+| Endpoint | Description |
+|-----------|-------------|
+| GET /api/upcoming | Upcoming matches |
+| GET /api/results | Match results |
+| GET /api/teams | Teams list |
+| GET /api/players | Players list |
+| GET /api/team/:id | Team details |
+| GET /api/match/:id | Match details |
+
+---
+
+# 💡 Engineering Highlights
+
+- Built a secure Express.js backend proxy to protect PandaScore API credentials.
+- Implemented **server-side response caching** using **node-cache** to reduce redundant API requests and improve backend performance.
+- Developed reusable UI components for matches, players, teams, and tournaments.
+- Implemented asynchronous API communication using Fetch API.
+- Designed a fully responsive user interface for desktop and mobile devices.
+- Organized frontend and backend into modular components for maintainability.
+- Deployed the frontend on **Vercel** and backend on **Render**.
+
+---
+
+# 🚧 Challenges
+
+- Protecting API keys from exposure in the frontend.
+- Handling PandaScore API rate limits.
+- Implementing server-side caching for improved performance.
+- Managing asynchronous API requests and error handling.
+- Building reusable UI components across multiple pages.
+- Ensuring responsive layouts across different screen sizes.
+
+---
+
+# 🚀 Running Locally
+
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/Veekshith18/CS2HUB.git
 ```
 
-### 2. Navigate to backend
+## 2️⃣ Install Backend Dependencies
 
 ```bash
 cd backend
-```
-
-### 3. Install dependencies
-
-```bash
 npm install
 ```
 
-### 4. Create `.env` file
+## 3️⃣ Create `.env`
 
 ```env
-PANDASCORE_API_KEY=YOUR_PANDASCORE_API_KEY
+PANDASCORE_TOKEN=YOUR_PANDASCORE_API_KEY
 ```
 
-### 5. Start the backend server
+## 4️⃣ Start Backend
 
 ```bash
 npm start
 ```
 
-### 6. Open the frontend
+## 5️⃣ Start Frontend
 
-Open `index.html` using a browser or Live Server.
+Open `index.html` using Live Server or any browser.
 
 ---
 
 # 🔮 Future Improvements
 
-- User authentication and personalized profiles
-- Favorite teams and player tracking
-- Advanced player analytics and historical statistics
-- Additional esports game support
-- Enhanced match statistics and visualizations
+- User authentication
+- Favorite teams and players
+- Match notifications
+- Historical player analytics
+- Redis-based distributed caching
+- Dark/Light mode
+- Advanced tournament analytics
+- Additional esports titles
 
 ---
 
 # 👨‍💻 Developer
 
-**SWARNAPUDI VEEKSHITH**
+**Swarnapudi Veekshith**
+
+- GitHub: https://github.com/Veekshith18
+- LinkedIn: *(Add your LinkedIn URL here)*
 
 ---
 
-⭐ If you found this project interesting, feel free to explore the repository.
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
